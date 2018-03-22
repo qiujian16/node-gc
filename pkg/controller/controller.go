@@ -49,10 +49,11 @@ func (gc *GCController) cleanContainers() error {
 	}
 
 	for _, container := range containers {
-		if container.Status == "Error" || container.Status == "Exited" {
+		if container.State == "error" || container.State == "exited" {
 			rmOpts := dockerapi.ContainerRemoveOptions{
 				Force: true,
 			}
+                        fmt.Printf("Remove container %s", container.ID)
 			err := gc.client.ContainerRemove(ctx, container.ID, rmOpts)
 			if err != nil {
 				return err
